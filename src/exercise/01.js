@@ -2,11 +2,8 @@
 // http://localhost:3000/isolated/exercise/01.js
 
 import * as React from 'react'
-// 💣 remove this import
-import Globe from '../globe'
 
-// 🐨 use React.lazy to create a Globe component which uses a dynamic import
-// to get the Globe component from the '../globe' module.
+let Globe = React.lazy(() => import('../globe'))
 
 function App() {
   const [showGlobe, setShowGlobe] = React.useState(false)
@@ -15,6 +12,12 @@ function App() {
   // with a fallback.
   // 💰 try putting it in a few different places and observe how that
   // impacts the user experience.
+  const GlobeTest = (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <Globe />
+    </React.Suspense>
+  )
+
   return (
     <div
       style={{
@@ -31,11 +34,12 @@ function App() {
           type="checkbox"
           checked={showGlobe}
           onChange={e => setShowGlobe(e.target.checked)}
+          onMouseEnter={e => import(/* webpackPrefetch: true */ '../globe')}
         />
         {' show globe'}
       </label>
       <div style={{width: 400, height: 400}}>
-        {showGlobe ? <Globe /> : null}
+        {showGlobe ? GlobeTest : null}
       </div>
     </div>
   )
