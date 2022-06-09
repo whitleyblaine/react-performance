@@ -31,6 +31,8 @@ function Example() {
   )
 }
 
+NameInput = React.memo(NameInput)
+
 export default Example
 
 /*
