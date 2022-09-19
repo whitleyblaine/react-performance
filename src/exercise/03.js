@@ -58,7 +58,16 @@ function ListItem({
   )
 }
 
-ListItem = React.memo(ListItem)
+ListItem = React.memo(ListItem, function areEqual(prevProps, nextProps) {
+  // return false if we want to re-render
+  if (
+    prevProps.highlightedIndex === nextProps.index ||
+    nextProps.highlightedIndex === nextProps.index
+  ) {
+    return false
+  }
+  return true
+})
 
 function App() {
   const forceRerender = useForceRerender()
